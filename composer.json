@@ -1,0 +1,19 @@
+{
+    "name": "grantjbutler/paypal-ipn",
+    "description": "Laravel Package for handling PayPal IPNs.",
+    "keywords": ["paypal", "ipn"]
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grant J. Butler"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+	    "psr-4": {
+		    "PayPalIPN\\": "src/PayPalIPN/"
+	    }
+    }
+}
