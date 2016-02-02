@@ -1,5 +1,5 @@
 {
-    "name": "grantjbutler/paypal-ipn",
+    "name": "grantjbutler/pippin",
     "description": "Laravel Package for handling PayPal IPNs.",
     "keywords": ["paypal", "ipn"]
     "license": "MIT",
@@ -13,7 +13,7 @@
     },
     "autoload": {
 	    "psr-4": {
-		    "PayPalIPN\\": "src/PayPalIPN/"
+		    "Pippin\\": "src/Pippin/"
 	    }
     }
 }
