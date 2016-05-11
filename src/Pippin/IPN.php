@@ -53,7 +53,7 @@ final class IPN implements ArrayAccess {
 	// ---
 
 	public function offsetSet($key, $value) {
-		throw RuntimeException('offsetSet is unavailable for IPN, as it represents an immutable data type.');
+		throw new RuntimeException('offsetSet is unavailable for IPN, as it represents an immutable data type.');
 	}
 
 	public function offsetExists($key) {
@@ -61,7 +61,7 @@ final class IPN implements ArrayAccess {
 	}
 
 	public function offsetUnset($key) {
-		throw RuntimeException('offsetUnset is unavailable for IPN, as it represents an immutable data type.');
+		throw new RuntimeException('offsetUnset is unavailable for IPN, as it represents an immutable data type.');
 	}
 
 	public function offsetGet($key) {
