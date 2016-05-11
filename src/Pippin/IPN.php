@@ -32,6 +32,23 @@ final class IPN implements ArrayAccess {
 		return $this['txn_id'];
 	}
 
+	public function getCurrency() {
+		$currency = $this['mc_currency'];
+		return (is_string($currency)) ? strtoupper($currency) : null;
+	}
+
+	public function getGross() {
+		return $this['mc_gross'];
+	}
+
+	public function getPaymentStatus() {
+		return strtoupper($this['payment_status']);
+	}
+
+	public function getCustom() {
+		return $this['custom'];
+	}
+
 	// ---
 
 	public function offsetSet($key, $value) {
