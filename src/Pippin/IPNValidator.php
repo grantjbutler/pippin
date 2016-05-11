@@ -4,6 +4,7 @@ namespace Pippin;
 
 use ReflectionClass;
 use InvalidArgumentException;
+use Exception;
 
 use Pippin\Transport\TransportInterface;
 use Pippin\Transport\cURLTransport;
