@@ -28,9 +28,9 @@ class cURLTransport implements TransportInterface {
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $request->getHeaders());
 		curl_setopt($this->curl, CURLOPT_URL, (string)$request->getUri());
 
-		$stream = $request->getStream();
-		if (!is_null($stream)) {
-			curl_setopt($this->curl, CURLOPT_POSTFIELDS, (string)$stream);
+		$body = $request->getBody();
+		if (!is_null($body)) {
+			curl_setopt($this->curl, CURLOPT_POSTFIELDS, (string)$body);
 		}
 
 		return curl_exec($this->curl);
