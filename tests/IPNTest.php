@@ -31,4 +31,34 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($ipn->getData(), $sampleData);
 	}
 
+	/**
+	 * @expectedException RuntimeException
+	 */
+	function testIPNDisallowsSettingOffset() {
+		$ipn = new IPN([]);
+		$ipn['custom'] = 'Hello, world';
+	}
+
+	/**
+	 * @expectedException RuntimeException
+	 */
+	function testIPNDisallowsUnsettingOffset() {
+		$ipn = new IPN(['custom' => 'Hello, world']);
+		unset($ipn['custom']);
+	}
+
+	function testIPNReturnsIssetForOffset() {
+		$ipn = new IPN(['custom' => 'Hello, world']);
+
+		$this->assertTrue(isset($ipn['custom']));
+		$this->assertFalse(isset($ipn['mc_currency']));
+	}
+
+	function testIPNGetsOffset() {
+		$ipn = new IPN(['custom' => 'Hello, world']);
+
+		$this->assertEquals($ipn['custom'], 'Hello, world');
+		$this->assertEquals($ipn['custom'], $ipn->getCustom());
+	}
+
 }
