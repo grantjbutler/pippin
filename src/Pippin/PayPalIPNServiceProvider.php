@@ -5,6 +5,7 @@ namespace Pippin;
 use Illuminate\Support\ServiceProvider;
 
 use Pippin\IPNValidator;
+use Pippin\IPNEnvironment;
 
 final class PayPalIPNServiceProvider extends ServiceProvider {
 
@@ -12,10 +13,10 @@ final class PayPalIPNServiceProvider extends ServiceProvider {
 		$appEnvironment = app()->environment();
 		$sandboxEnvironments = config('pippin.sandbox_environments');
 		if (in_array($appEnvironment, $sandboxEnvironments)) {
-			return INPValidator::SANDBOX;
+			return IPNEnvironment::SANDBOX;
 		}
 
-		return INPValidator::PRODUCTION;
+		return IPNEnvironment::PRODUCTION;
 	}
 
 	/**
