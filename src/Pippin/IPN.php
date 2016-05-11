@@ -3,6 +3,7 @@
 namespace Pippin;
 
 use ArrayAccess;
+use RuntimeException;
 
 final class IPN implements ArrayAccess {
 
