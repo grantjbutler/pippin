@@ -21,15 +21,15 @@ final class IPN implements ArrayAccess {
 	}
 
 	public function getPayerEmail() {
-		return $this->getDataValueOrNull('payer_email');
+		return $this['payer_email'];
 	}
 
 	public function getReceiverEmail() {
-		return $this->getDataValueOrNull('receiver_email');
+		return $this['receiver_email'];
 	}
 
 	public function getTransactionId() {
-		return $this->getDataValueOrNull('txn_id');
+		return $this['txn_id'];
 	}
 
 	// ---
