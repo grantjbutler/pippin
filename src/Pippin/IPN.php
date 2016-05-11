@@ -2,7 +2,9 @@
 
 namespace Pippin;
 
-final class IPN {
+use ArrayAccess;
+
+final class IPN implements ArrayAccess {
 
 	private $data = [];
 
@@ -18,10 +20,6 @@ final class IPN {
 		return null;
 	}
 
-	public function getData() {
-		return $this->data;
-	}
-
 	public function getPayerEmail() {
 		return $this->getDataValueOrNull('payer_email');
 	}
@@ -32,6 +30,24 @@ final class IPN {
 
 	public function getTransactionId() {
 		return $this->getDataValueOrNull('txn_id');
+	}
+
+	// ---
+
+	public function offsetSet($key, $value) {
+		throw RuntimeException('offsetSet is unavailable for IPN, as it represents an immutable data type.');
+	}
+
+	public function offsetExists($key) {
+		return isset($this->data[$key]);
+	}
+
+	public function offsetUnset($key) {
+		throw RuntimeException('offsetUnset is unavailable for IPN, as it represents an immutable data type.');
+	}
+
+	public function offsetGet($key) {
+		return $this->getDataValueOrNull($key);
 	}
 
 }
