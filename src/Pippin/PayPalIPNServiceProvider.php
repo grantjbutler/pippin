@@ -28,9 +28,10 @@ final class PayPalIPNServiceProvider extends ServiceProvider {
 		$this->publishes([
 			__DIR__ . '/resources/config/pippin.php' => config_path('pippin.php')
 		]);
-
-		$this->app->singleton(IPNValidator::class, function($app) use($this) {
-			$environment = $this->environmentFromConfig();
+		
+		$self = $this;
+		$this->app->singleton(IPNValidator::class, function($app) use($self) {
+			$environment = $self->environmentFromConfig();
 			$validator = new IPNValidator($environment);
 			$validator->setTransportClass(config('pippin.transport_class'));
 			return $validator;
