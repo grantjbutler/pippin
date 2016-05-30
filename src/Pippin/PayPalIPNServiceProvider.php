@@ -18,6 +18,10 @@ final class PayPalIPNServiceProvider extends ServiceProvider {
 
 		return IPNEnvironment::PRODUCTION;
 	}
+	
+	public function register () {
+		// Nothing to register. Intentially empty.
+	}
 
 	/**
      * Register bindings in the container.
