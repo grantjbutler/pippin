@@ -36,5 +36,9 @@ class IPNRequest extends FormRequest {
 	public function getIPN() {
 		return $this->IPN;
 	}
+	
+	public function rules() {
+		return [];
+	}
 
 }
