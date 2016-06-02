@@ -2,8 +2,6 @@
 
 namespace Pippin\Transport;
 
-use Psr\Http\Message\RequestInterface;
-
 use RuntimeException;
 
 class cURLTransport implements TransportInterface {
@@ -23,21 +21,10 @@ class cURLTransport implements TransportInterface {
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
 	}
 
-	public function request(RequestInterface $request) {
-		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request->getMethod());
-		
-		$headers = $request->getHeaders();
-		$mappedHeaders = array_map(function($name, $values) {
-			return $name . ': ' . implode(', ', $values);
-		}, array_keys($headers), array_values($headers));
-		
-		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $mappedHeaders);
-		curl_setopt($this->curl, CURLOPT_URL, (string)$request->getUri());
-
-		$body = $request->getBody();
-		if (!is_null($body)) {
-			curl_setopt($this->curl, CURLOPT_POSTFIELDS, (string)$body);
-		}
+	public function request($method, $url, $body) {
+		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
+		curl_setopt($this->curl, CURLOPT_URL, $url);
+		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);
 
 		return curl_exec($this->curl);
 	}

@@ -1,11 +1,10 @@
 <?php
 
-use Psr\Http\Message\RequestInterface;
 use Pippin\Transport\TransportInterface;
 
 class StubbedSuccessTransport implements TransportInterface {
 
-	public function request(RequestInterface $request) {
+	public function request($method, $url, $body) {
 		return 'VERIFIED';
 	}
 
@@ -13,7 +12,7 @@ class StubbedSuccessTransport implements TransportInterface {
 
 class StubbedFailureTransport implements TransportInterface {
 
-	public function request(RequestInterface $request) {
+	public function request($method, $url, $body) {
 		return 'INVALID';
 	}
 

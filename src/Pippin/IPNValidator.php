@@ -9,7 +9,6 @@ use Exception;
 use Pippin\Transport\TransportInterface;
 use Pippin\Transport\cURLTransport;
 use Pippin\IPNEnvironment;
-use Pippin\IPNValidationRequestBuilder;
 
 final class IPNValidator {
 
@@ -53,11 +52,12 @@ final class IPNValidator {
 	}
 
 	public function isValidIPN($IPNString) {
-		$request = IPNValidationRequestBuilder::request($this->getEnvironment(), $IPNString);
-
+		$requestBody = 'cmd=_notify-validate&' . $IPNString;
+		$url = IPNEnvironment::urlForEnvironment($this->environment);
+		
 		$transportClass = $this->getTransportClass();
 		$transport = new $transportClass();
-		$result = $transport->request($request);
+		$result = $transport->request('POST', $url, $requestBody);
 
 		return strcmp($result, "VERIFIED") == 0;
 	}
