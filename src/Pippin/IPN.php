@@ -29,17 +29,47 @@ final class IPN implements ArrayAccess {
 		return $this['payer_email'];
 	}
 
-	public function getReceiverEmail() {
-		return $this['receiver_email'];
+	public function getReceiverEmails() {
+		if (isset($this['receiver_email'])) {
+			return [$this['receiver_email']];
+		}
+		
+		$emails = []
+		for($i = 0; isset($this["transaction[{$i}].receiver"]); $i++) {
+			$emails[] = $this["transaction[{$i}].receiver"];
+		}
+		return $emails;
 	}
 
-	public function getTransactionId() {
-		return $this['txn_id'];
+	public function getTransactionIds() {
+		if (isset($this['txn_id'])) {
+			return [$this['txn_id']];
+		}
+		
+		$IDs = [];
+		for($i = 0; isset($this["transaction[{$i}].id"]); $i++) {
+			$IDs[] = $this["transaction[{$i}].id"];
+		}
+		return $IDs;
 	}
 
-	public function getCurrency() {
-		$currency = $this['mc_currency'];
-		return (is_string($currency)) ? strtoupper($currency) : null;
+	public function getTransactionType() {
+		return $this['txn_type'] ?: $this['transaction_type'];
+	}
+
+	public function getCurrencies() {
+		if (isset($this['mc_currency'])) {
+			$currency = $this['mc_currency'];
+			return (is_string($currency)) ? strtoupper($currency) : null;
+		}
+		
+		$currencies = [];
+		for($i = 0; isset($this["transaction[{$i}].amount"]); $i++) {
+			// For Adapative Payments IPNs, the amount has the form "<CURRENCY> <AMOUNT>"
+			// For example, "USD 5.00". Split the string by spaces, and return the first component.
+			$currencies[] = explode(" ", $this["transaction[{$i}].amount"])[0];
+		}
+		return $currencies;
 	}
 
 	public function getGross() {
@@ -47,11 +77,16 @@ final class IPN implements ArrayAccess {
 	}
 
 	public function getPaymentStatus() {
-		return strtoupper($this['payment_status']);
+		$status = $this['payment_status'] ?: $this['status'];
+		return strtoupper($status);
 	}
 
 	public function getCustom() {
 		return $this['custom'];
+	}
+
+	public function getTrackingID() {
+		return $this['tracking_id'];
 	}
 
 	// ---
