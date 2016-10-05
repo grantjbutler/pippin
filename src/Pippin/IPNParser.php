@@ -12,7 +12,7 @@ final class IPNParser {
 		foreach ($pairs as $pair) {
 			$keyValue = explode('=', $pair);
 			if (count($keyValue) == 2) {
-				$IPNData[$keyValue[0]] = urldecode($keyValue[1]);
+				$IPNData[urldecode($keyValue[0])] = urldecode($keyValue[1]);
 			}
 		}
 
