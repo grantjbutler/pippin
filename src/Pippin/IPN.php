@@ -60,7 +60,7 @@ final class IPN implements ArrayAccess {
 	public function getCurrencies() {
 		if (isset($this['mc_currency'])) {
 			$currency = $this['mc_currency'];
-			return (is_string($currency)) ? strtoupper($currency) : null;
+			return (is_string($currency)) ? [strtoupper($currency)] : null;
 		}
 		
 		$currencies = [];
