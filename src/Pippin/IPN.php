@@ -71,9 +71,19 @@ final class IPN implements ArrayAccess {
 		}
 		return $currencies;
 	}
-
-	public function getGross() {
-		return $this['mc_gross'];
+	
+	public function getAmounts() {
+		if (isset($this['mc_gross'])) {
+			return [$this['mc_gross']];
+		}
+		
+		$amounts = [];
+		for($i = 0; isset($this["transaction[{$i}].amount"]); $i++) {
+			// For Adapative Payments IPNs, the amount has the form "<CURRENCY> <AMOUNT>"
+			// For example, "USD 5.00". Split the string by spaces, and return the last component.
+			$amounts[] = explode(" ", $this["transaction[{$i}].amount"])[1];
+		}
+		return $amounts;
 	}
 
 	public function getPaymentStatus() {
