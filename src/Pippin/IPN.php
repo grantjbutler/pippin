@@ -34,7 +34,7 @@ final class IPN implements ArrayAccess {
 			return [$this['receiver_email']];
 		}
 		
-		$emails = []
+		$emails = [];
 		for($i = 0; isset($this["transaction[{$i}].receiver"]); $i++) {
 			$emails[] = $this["transaction[{$i}].receiver"];
 		}
