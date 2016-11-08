@@ -13,9 +13,9 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 		];
 
 		$ipn = new IPN($sampleData);
-		$this->assertEquals($ipn->getTransactionId(), $sampleData['txn_id']);
+		$this->assertEquals($ipn->getTransactionIds(), [$sampleData['txn_id']]);
 		$this->assertEquals($ipn->getPayerEmail(), $sampleData['payer_email']);
-		$this->assertEquals($ipn->getReceiverEmail(), $sampleData['receiver_email']);
+		$this->assertEquals($ipn->getReceiverEmails(), [$sampleData['receiver_email']]);
 		$this->assertEquals($ipn->getData(), $sampleData);
 	}
 
@@ -25,9 +25,9 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 		];
 
 		$ipn = new IPN($sampleData);
-		$this->assertEquals($ipn->getTransactionId(), null);
+		$this->assertEquals($ipn->getTransactionIds(), []);
 		$this->assertEquals($ipn->getPayerEmail(), null);
-		$this->assertEquals($ipn->getReceiverEmail(), null);
+		$this->assertEquals($ipn->getReceiverEmails(), []);
 		$this->assertEquals($ipn->getData(), $sampleData);
 	}
 
