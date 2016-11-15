@@ -12,10 +12,8 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 			'mc_currency' => '17000'
 		];
 
-		$ipn = new IPN($sampleData);
-		$this->assertEquals($ipn->getTransactionIds(), [$sampleData['txn_id']]);
+		$ipn = new IPN([], $sampleData);
 		$this->assertEquals($ipn->getPayerEmail(), $sampleData['payer_email']);
-		$this->assertEquals($ipn->getReceiverEmails(), [$sampleData['receiver_email']]);
 		$this->assertEquals($ipn->getData(), $sampleData);
 	}
 
@@ -24,10 +22,8 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 			'mc_currency' => '17000'
 		];
 
-		$ipn = new IPN($sampleData);
-		$this->assertEquals($ipn->getTransactionIds(), []);
+		$ipn = new IPN([], $sampleData);
 		$this->assertEquals($ipn->getPayerEmail(), null);
-		$this->assertEquals($ipn->getReceiverEmails(), []);
 		$this->assertEquals($ipn->getData(), $sampleData);
 	}
 
@@ -35,7 +31,7 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException RuntimeException
 	 */
 	function testIPNDisallowsSettingOffset() {
-		$ipn = new IPN([]);
+		$ipn = new IPN([], []);
 		$ipn['custom'] = 'Hello, world';
 	}
 
@@ -43,19 +39,19 @@ class IPNTest extends PHPUnit_Framework_TestCase {
 	 * @expectedException RuntimeException
 	 */
 	function testIPNDisallowsUnsettingOffset() {
-		$ipn = new IPN(['custom' => 'Hello, world']);
+		$ipn = new IPN([], ['custom' => 'Hello, world']);
 		unset($ipn['custom']);
 	}
 
 	function testIPNReturnsIssetForOffset() {
-		$ipn = new IPN(['custom' => 'Hello, world']);
+		$ipn = new IPN([], ['custom' => 'Hello, world']);
 
 		$this->assertTrue(isset($ipn['custom']));
 		$this->assertFalse(isset($ipn['mc_currency']));
 	}
 
 	function testIPNGetsOffset() {
-		$ipn = new IPN(['custom' => 'Hello, world']);
+		$ipn = new IPN([], ['custom' => 'Hello, world']);
 
 		$this->assertEquals($ipn['custom'], 'Hello, world');
 		$this->assertEquals($ipn['custom'], $ipn->getCustom());
