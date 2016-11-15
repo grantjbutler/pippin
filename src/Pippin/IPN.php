@@ -8,8 +8,10 @@ use RuntimeException;
 final class IPN implements ArrayAccess {
 
 	private $data = [];
+	private $transactions = [];
 
-	public function __construct($data) {
+	public function __construct($transactions, $data) {
+		$this->transactions = $transactions;
 		$this->data = $data;
 	}
 
@@ -25,70 +27,16 @@ final class IPN implements ArrayAccess {
 		return $this->data;
 	}
 
+	public function getTransactions() {
+		return $this->transactions;
+	}
+
 	public function getPayerEmail() {
 		return $this['payer_email'];
 	}
 
-	public function getReceiverEmails() {
-		if (isset($this['receiver_email'])) {
-			return [$this['receiver_email']];
-		}
-		
-		$emails = [];
-		for($i = 0; isset($this["transaction[{$i}].receiver"]); $i++) {
-			$emails[] = $this["transaction[{$i}].receiver"];
-		}
-		return $emails;
-	}
-
-	public function getTransactionIds() {
-		if (isset($this['txn_id'])) {
-			return [$this['txn_id']];
-		}
-		
-		$IDs = [];
-		for($i = 0; isset($this["transaction[{$i}].id"]); $i++) {
-			$IDs[] = $this["transaction[{$i}].id"];
-		}
-		return $IDs;
-	}
-
 	public function getTransactionType() {
 		return $this['txn_type'] ?: $this['transaction_type'];
-	}
-
-	public function getCurrencies() {
-		if (isset($this['mc_currency'])) {
-			$currency = $this['mc_currency'];
-			return (is_string($currency)) ? [strtoupper($currency)] : null;
-		}
-		
-		$currencies = [];
-		for($i = 0; isset($this["transaction[{$i}].amount"]); $i++) {
-			// For Adapative Payments IPNs, the amount has the form "<CURRENCY> <AMOUNT>"
-			// For example, "USD 5.00". Split the string by spaces, and return the first component.
-			$currencies[] = explode(" ", $this["transaction[{$i}].amount"])[0];
-		}
-		return $currencies;
-	}
-	
-	public function getAmounts() {
-		if (isset($this['mc_gross'])) {
-			return [$this['mc_gross']];
-		}
-		
-		$amounts = [];
-		for($i = 0; isset($this["transaction[{$i}].amount"]); $i++) {
-			// For Adapative Payments IPNs, the amount has the form "<CURRENCY> <AMOUNT>"
-			// For example, "USD 5.00". Split the string by spaces, and return the last component.
-			$amounts[] = explode(" ", $this["transaction[{$i}].amount"])[1];
-		}
-		return $amounts;
-	}
-
-	public function getPaymentStatus() {
-		$status = $this['payment_status'] ?: $this['status'];
-		return strtoupper($status);
 	}
 
 	public function getCustom() {

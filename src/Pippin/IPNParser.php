@@ -16,7 +16,9 @@ final class IPNParser {
 			}
 		}
 
-		return new IPN($IPNData);
+		$transactions = TransactionFactory::transactionsFromIPNData($IPNData);
+
+		return new IPN($transactions, $IPNData);
 	}
 
 }
