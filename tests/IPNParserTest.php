@@ -49,6 +49,16 @@ class IPNParserTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($ipnData['transaction_subject'], '');
 		$this->assertEquals($ipnData['payment_gross'], '19.95');
 		$this->assertEquals($ipnData['shipping'], '0.00');
+
+		$transactions = $ipn->getTransactions();
+		$this->assertEquals(count($transactions), 1);
+		
+		$transaction = $transactions[0];
+		$this->assertEquals($transaction->getID(), '61E67681CH3238416');
+		$this->assertEquals($transaction->getStatus(), 'Completed');
+		$this->assertEquals($transaction->getReceiver(), 'gpmac_1231902686_biz@paypal.com');
+		$this->assertEquals($transaction->getAmount(), '19.95');
+		$this->assertEquals($transaction->getCurrency(), 'USD');
 	}
 
 }
