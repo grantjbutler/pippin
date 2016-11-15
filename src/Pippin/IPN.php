@@ -82,6 +82,10 @@ final class IPN implements ArrayAccess {
 		}
 	}
 
+	public function getStatus() {
+		return strtoupper($this['payment_status']) ?: strtoupper($this['status']);
+	}
+
 	// ---
 
 	public function offsetSet($key, $value) {
