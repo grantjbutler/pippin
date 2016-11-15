@@ -34,7 +34,9 @@ Pippin is a library for handling [PayPal IPNs](https://developer.paypal.com/docs
       $ipn = $request->getIPN();
       // $ipn is an instance of Pippin\IPN.
       $payerEmail = $ipn->getPayerEmail();
-      $receiverEmail = $ipn->getReceiverEmail();
+
+      $transaction = $ipn->getTransactions()[0];
+      $receiverEmail = $transaction->getReceiver();
     }
     
   }
