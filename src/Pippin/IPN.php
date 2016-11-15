@@ -47,6 +47,39 @@ final class IPN implements ArrayAccess {
 		return $this['tracking_id'];
 	}
 
+	public function getPaymentDate() {
+		if (isset($this['payment_date'])) {
+			$paymentDate = $this['payment_date'];
+			try {
+				// payment_date format is "20:12:59 Jan 13, 2009 PST", as documented https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNIntro/
+				return DateTime::createFromFormat('H:i:s M d, Y T', $paymentDate);
+			}
+			catch (Exception $e) {
+				try {
+					// payment_date format is "Mon May 30 2016 13:50:59 GMT-0400 (EDT)", as filled in in the IPN simulator.
+					$paymentDate = preg_replace('/ \([A-Z]{3}\)/', '', $paymentDate);
+					return DateTime::createFromFormat('D M d Y H:i:s \G\M\TO', $paymentDate);
+				}
+				catch (Exception $e) {
+					throw new Exception('Unknown payment date format: ' . $paymentDate);
+				}
+			}
+		}
+		else if (isset($this['payment_request_date'])) {
+			$paymentDate = $this['payment_request_date'];
+			try {
+				// payment_request_date foramt is "Wed Oct 05 17:50:46 PDT 2016" for Adaptive Payments IPNs.
+				return DateTime::createFromFormat('D M d H:i:s T Y', $paymentDate);
+			}
+			catch (Exception $e) {
+				throw new Exception('Unknown payment date format: ' . $paymentDate);
+			}
+		}
+		else {
+			return null;
+		}
+	}
+
 	// ---
 
 	public function offsetSet($key, $value) {
