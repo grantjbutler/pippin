@@ -28,6 +28,8 @@ class IPNRequest extends FormRequest {
 		if ($isValid) {
 			$parser = new IPNParser();
 			$this->IPN = $parser->parse($postData);
+
+			$isValid = count($this->IPN->getTransactions()) <= 0;
 		}
 
 		return $isValid;
