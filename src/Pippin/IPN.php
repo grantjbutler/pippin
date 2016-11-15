@@ -32,7 +32,7 @@ final class IPN implements ArrayAccess {
 	}
 
 	public function getPayerEmail() {
-		return $this['payer_email'];
+		return $this['payer_email'] ?: $this['sender_email'];
 	}
 
 	public function getTransactionType() {
