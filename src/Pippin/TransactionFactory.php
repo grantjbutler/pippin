@@ -8,7 +8,7 @@ class TransactionFactory {
      * @return array An array of Transaction objects.
      */
     static function transactionsFromIPNData($IPNData) {
-        if (array_key_exists('transactions[0].id', $IPNData)) {
+        if (array_key_exists('transaction[0].id', $IPNData)) {
             return self::transactionsFromAdapativePaymentsIPN($IPNData);
         }
         else {
