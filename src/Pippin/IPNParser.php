@@ -16,6 +16,13 @@ final class IPNParser {
 			}
 		}
 
+		if (array_key_exists('charset', $IPNData) && is_string($IPNData['charset'])) {
+			$charset = $IPNData['charset'];
+			foreach ($IPNData as $key => $value) {
+				$IPNData[$key] = mb_convert_encoding($value, 'utf-8', $charset);
+			}
+		}
+
 		$transactions = TransactionFactory::transactionsFromIPNData($IPNData);
 
 		return new IPN($transactions, $IPNData);
