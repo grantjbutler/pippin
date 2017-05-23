@@ -6,7 +6,9 @@ use Pippin\IPNEnvironment;
 use Pippin\IPNValidator;
 use Pippin\IPNRequest;
 
-class IPNRequestTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class IPNRequestTest extends TestCase {
 
 	function testIsIPNValid() {
 		$validator = new IPNValidator();

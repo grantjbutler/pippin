@@ -2,7 +2,9 @@
 
 use Pippin\IPN;
 
-class IPNTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class IPNTest extends TestCase {
 
 	function testIPNReturnsData() {
 		$sampleData = [

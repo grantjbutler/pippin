@@ -6,7 +6,9 @@ use Pippin\IPNEnvironment;
 use Pippin\IPNValidator;
 use Pippin\Transport\cURLTransport;
 
-class IPNValidatorTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class IPNValidatorTest extends TestCase {
 
 	function testEnvironmentIsSet() {
 		$validator = new IPNValidator();
