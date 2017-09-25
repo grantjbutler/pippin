@@ -33,10 +33,6 @@ final class IPN implements ArrayAccess {
 		return $this->transactions;
 	}
 
-	public function getBusiness() {
-		return $this['business'];
-	}
-
 	public function getPayerEmail() {
 		return $this['payer_email'] ?: $this['sender_email'];
 	}

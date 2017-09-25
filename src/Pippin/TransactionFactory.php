@@ -45,7 +45,7 @@ class TransactionFactory {
             new Transaction(
                 $IPNData['txn_id'],
                 $IPNData['payment_status'],
-                $IPNData['receiver_email'],
+                $IPNData['business'] ?: $IPNData['receiver_email'],
                 $IPNData['mc_currency'],
                 $IPNData['mc_gross']
             )
