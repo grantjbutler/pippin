@@ -9,9 +9,8 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "zendframework/zend-diactoros": "1.3.*",
-        "laravel/framework": "^5.2"
+        "php": ">=7.0",
+        "laravel/framework": ">=5.2"
     },
     "autoload": {
 	    "psr-4": {

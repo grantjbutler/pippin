@@ -9,12 +9,12 @@ use Pippin\IPNParser;
 
 class IPNRequest extends FormRequest {
 
-	private $validator;
+	private $ipnValidator;
 
 	private $IPN;
 
-	public function __construct(IPNValidator $validator) {
-		$this->validator = $validator;
+	public function __construct(IPNValidator $ipnValidator) {
+		$this->ipnValidator = $ipnValidator;
 	}
 
 	public function authorize() {
@@ -23,7 +23,7 @@ class IPNRequest extends FormRequest {
 		}
 
 		$postData = $this->getContent();
-		$isValid = $this->validator->isValidIPN($postData);
+		$isValid = $this->ipnValidator->isValidIPN($postData);
 
 		if ($isValid) {
 			$parser = new IPNParser();
