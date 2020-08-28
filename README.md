@@ -1,18 +1,10 @@
 # Pippin
 
-Pippin is a library for handling [PayPal IPNs](https://developer.paypal.com/docs/classic/products/instant-payment-notification/) in Laravel.
+Pippin is a library for handling [PayPal IPNs](https://developer.paypal.com/docs/api-basics/notifications/ipn/) in Laravel.
 
 ## Usage
 
-1. Register `PayPalIPNServiceProvider` in `app/config.php`:
-  ```php
-  'providers' => [
-      // Other providers.
-      
-      Pippin\PayPalIPNServerProvider::class,
-  ],
-  ```
-2. Type-hint the request in your route handler to opt-in to IPN verification:
+1. Type-hint the request in your route handler to opt-in to IPN verification:
   ```php
   use Pippin\IPNRequest;
   
@@ -24,7 +16,8 @@ Pippin is a library for handling [PayPal IPNs](https://developer.paypal.com/docs
     
   }
   ```
-3. Access data about the IPN to [validate the notification](https://developer.paypal.com/docs/classic/ipn/ht_ipn/#learn-more) and process it for your application.
+
+2. Access data about the IPN to [validate the notification](https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNIntro/#a-sample-ipn-message-and-response) and process it for your application.
   ```php
   use Pippin\IPNRequest;
   

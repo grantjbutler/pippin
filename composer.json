@@ -12,6 +12,13 @@
         "php": ">=7.0",
         "laravel/framework": ">=5.2"
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pippin\\PayPalIPNServiceProvider"
+            ]
+        }
+    },
     "autoload": {
 	    "psr-4": {
 		    "Pippin\\": "src/Pippin/"

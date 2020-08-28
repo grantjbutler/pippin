@@ -8,16 +8,6 @@ use Pippin\IPNValidator;
 use Pippin\IPNEnvironment;
 
 final class PayPalIPNServiceProvider extends ServiceProvider {
-
-	private function environmentFromConfig() {
-		$appEnvironment = app()->environment();
-		$sandboxEnvironments = config('pippin.sandbox_environments');
-		if (in_array($appEnvironment, $sandboxEnvironments)) {
-			return IPNEnvironment::SANDBOX;
-		}
-
-		return IPNEnvironment::PRODUCTION;
-	}
 	
 	public function register () {
 		// Nothing to register. Intentially empty.
@@ -31,14 +21,12 @@ final class PayPalIPNServiceProvider extends ServiceProvider {
 	public function boot() {
 		$this->publishes([
 			__DIR__ . '/resources/config/pippin.php' => config_path('pippin.php')
-		]);
+		], 'config');
 		
-		$self = $this;
-		$this->app->singleton(IPNValidator::class, function($app) use($self) {
-			$environment = $self->environmentFromConfig();
-			$validator = new IPNValidator($environment);
-			$validator->setTransportClass(config('pippin.transport_class'));
-			return $validator;
+		$this->app->bind(Pippin\Transport\TransportInterface::class, Pippin\Transport\cURLTransport::class);
+
+		$this->app->bind(IPNValidator::class, function ($app) {
+			return new IPNValidator(config('pippin.environment'), $app->make(Pippin\Transport\TransportInterface::class));
 		});
 	}
 

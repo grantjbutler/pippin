@@ -11,8 +11,7 @@ use PHPUnit\Framework\TestCase;
 class IPNRequestTest extends TestCase {
 
 	function testIsIPNValid() {
-		$validator = new IPNValidator();
-		$validator->setTransportClass(StubbedSuccessTransport::class);
+		$validator = new IPNValidator(IPNEnvironment::SANDBOX, new StubbedSuccessTransport());
 
 		$request = new IPNRequest($validator);
 		$request->initialize([], [
@@ -33,8 +32,7 @@ class IPNRequestTest extends TestCase {
 	}
 
 	function testIsIPNInvalid() {
-		$validator = new IPNValidator();
-		$validator->setTransportClass(StubbedFailureTransport::class);
+		$validator = new IPNValidator(IPNEnvironment::SANDBOX, new StubbedFailureTransport());
 
 		$request = new IPNRequest($validator);
 		$request->initialize([], [

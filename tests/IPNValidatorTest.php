@@ -11,10 +11,10 @@ use PHPUnit\Framework\TestCase;
 class IPNValidatorTest extends TestCase {
 
 	function testEnvironmentIsSet() {
-		$validator = new IPNValidator();
+		$validator = new IPNValidator(IPNEnvironment::SANDBOX, new StubbedSuccessTransport());
 		$this->assertEquals($validator->getEnvironment(), IPNEnvironment::SANDBOX);
 
-		$validator->setEnvironment(IPNEnvironment::PRODUCTION);
+		$validator->setEnvironment(IPNEnvironment::PRODUCTION, new StubbedSuccessTransport());
 		$this->assertEquals($validator->getEnvironment(), IPNEnvironment::PRODUCTION);
 	}
 
@@ -22,36 +22,18 @@ class IPNValidatorTest extends TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	function testExceptionIsThrownOnInvalidEnvironment() {
-		$validator = new IPNValidator();
+		$validator = new IPNValidator(IPNEnvironment::SANDBOX, new StubbedSuccessTransport());
 		$validator->setEnvironment("STAGING");
 	}
 
-	function testTransportClassIsSet() {
-		$validator = new IPNValidator();
-		$this->assertEquals($validator->getTransportClass(), cURLTransport::class);
-
-		$validator->setTransportClass(StubbedSuccessTransport::class);
-		$this->assertEquals($validator->getTransportClass(), StubbedSuccessTransport::class);
-	}
-
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	function testExceptionIsThrownOnInvalidTransportClass() {
-		$validator = new IPNValidator();
-		$validator->setTransportClass(IPNValidatorTest::class);
-	}
-
 	function testIsIPNValid() {
-		$validator = new IPNValidator();
-		$validator->setTransportClass(StubbedSuccessTransport::class);
+		$validator = new IPNValidator(IPNEnvironment::SANDBOX, new StubbedSuccessTransport());
 
 		$this->assertTrue($validator->isValidIPN('mc_currency=17000'));
 	}
 
 	function testIsIPNInvalid() {
-		$validator = new IPNValidator();
-		$validator->setTransportClass(StubbedFailureTransport::class);
+		$validator = new IPNValidator(IPNEnvironment::SANDBOX, new StubbedFailureTransport());
 
 		$this->assertFalse($validator->isValidIPN('mc_currency=17000'));
 	}
