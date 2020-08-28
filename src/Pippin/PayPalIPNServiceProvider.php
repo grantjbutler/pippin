@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 use Pippin\IPNValidator;
 use Pippin\IPNEnvironment;
+use Pippin\Transport\TransportInterface;
+use Pippin\Transport\cURLTransport;
 
 final class PayPalIPNServiceProvider extends ServiceProvider {
 	
@@ -23,10 +25,10 @@ final class PayPalIPNServiceProvider extends ServiceProvider {
 			__DIR__ . '/resources/config/pippin.php' => config_path('pippin.php')
 		], 'config');
 		
-		$this->app->bind(Pippin\Transport\TransportInterface::class, Pippin\Transport\cURLTransport::class);
+		$this->app->bind(TransportInterface::class, cURLTransport::class);
 
 		$this->app->bind(IPNValidator::class, function ($app) {
-			return new IPNValidator(config('pippin.environment'), $app->make(Pippin\Transport\TransportInterface::class));
+			return new IPNValidator(config('pippin.environment'), $app->make(TransportInterface::class));
 		});
 	}
 
