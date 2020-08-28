@@ -15,22 +15,22 @@ final class IPNValidator {
 	private $environment;
 	private $transport;
 
-	public function __construct($environment, TransportInterface $transport) {
+	public function __construct(string $environment, TransportInterface $transport) {
 		$this->setEnvironment($environment);
 		$this->transport = $transport;
 	}
 
-	public function getEnvironment() {
+	public function getEnvironment(): string {
 		return $this->environment;
 	}
 
-	public function setEnvironment($environment) {
+	public function setEnvironment(string $environment) {
 		IPNEnvironment::validateEnvironment($environment);
 
 		$this->environment = $environment;
 	}
 
-	public function isValidIPN($IPNString) {
+	public function isValidIPN(string $IPNString): bool {
 		$requestBody = 'cmd=_notify-validate&' . $IPNString;
 		$url = IPNEnvironment::urlForEnvironment($this->environment);
 		

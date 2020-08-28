@@ -5,9 +5,9 @@ namespace Pippin;
 class TransactionFactory {
 
     /**
-     * @return array An array of Transaction objects.
+     * @return Transaction[] An array of Transaction objects.
      */
-    static function transactionsFromIPNData($IPNData) {
+    static function transactionsFromIPNData(array $IPNData) {
         if (array_key_exists('transaction[0].id', $IPNData)) {
             return self::transactionsFromAdapativePaymentsIPN($IPNData);
         }
@@ -18,7 +18,11 @@ class TransactionFactory {
         return [];
     }
 
-    private static function transactionsFromAdapativePaymentsIPN($IPNData) {
+    /**
+     * @param array $IPNData
+     * @return Transaction[]
+     */
+    private static function transactionsFromAdapativePaymentsIPN(array $IPNData): array {
         $transactions = [];
 
         for($i = 0; isset($IPNData["transaction[{$i}].id"]); $i++) {
@@ -40,7 +44,11 @@ class TransactionFactory {
         return $transactions;
     }
 
-    private static function transactionFromExpressCheckoutIPN($IPNData) {
+    /**
+     * @param array $IPNData
+     * @return Transaction[]
+     */
+    private static function transactionFromExpressCheckoutIPN(array $IPNData): array {
         return [
             new Transaction(
                 $IPNData['txn_id'],

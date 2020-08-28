@@ -12,13 +12,12 @@ class Transaction {
 
     /**
      * @param string $id
-     * @param string $type
      * @param string $status
-     * @param array  $receiver
+     * @param string $receiver
      * @param string $currency
      * @param double $amount
      */
-    public function __construct($id, $status, $receiver, $currency, $amount) {
+    public function __construct(string $id, string $status, string $receiver, string $currency, float $amount) {
         $this->id = $id;
         $this->status = $status;
         $this->receiver = $receiver;
@@ -26,23 +25,23 @@ class Transaction {
         $this->amount = $amount;
     }
 
-    public function getID() {
+    public function getID(): string {
         return $this->id;
     }
 
-    public function getStatus() {
+    public function getStatus(): string {
         return $this->status;
     }
 
-    public function getReceiver() {
+    public function getReceiver(): string {
         return $this->receiver;
     }
 
-    public function getCurrency() {
+    public function getCurrency(): string {
         return $this->currency;
     }
 
-    public function getAmount() {
+    public function getAmount(): float {
         return $this->amount;
     }
 

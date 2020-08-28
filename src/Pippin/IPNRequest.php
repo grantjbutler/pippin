@@ -17,7 +17,7 @@ class IPNRequest extends FormRequest {
 		$this->ipnValidator = $ipnValidator;
 	}
 
-	public function authorize() {
+	public function authorize(): bool {
 		if ($this->getMethod() != 'POST') {
 			return false;
 		}
@@ -35,11 +35,11 @@ class IPNRequest extends FormRequest {
 		return $isValid;
 	}
 
-	public function getIPN() {
+	public function getIPN(): ?IPN {
 		return $this->IPN;
 	}
 	
-	public function rules() {
+	public function rules(): array {
 		return [];
 	}
 

@@ -9,14 +9,14 @@ final class IPNEnvironment {
 	const PRODUCTION = 'production';
 	const SANDBOX = 'sandbox';
 
-	static function validateEnvironment($environment) {
+	static function validateEnvironment(string $environment) {
 		if ($environment != static::PRODUCTION &&
 			$environment != static::SANDBOX) {
 			throw new InvalidArgumentException('Unknown environment "' . $environment . '".');
 		}
 	}
 
-	static function urlForEnvironment($environment) {
+	static function urlForEnvironment(string $environment): string {
 		self::validateEnvironment($environment);
 
 		if ($environment == static::PRODUCTION) {

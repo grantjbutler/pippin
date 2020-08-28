@@ -21,7 +21,7 @@ class cURLTransport implements TransportInterface {
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
 	}
 
-	public function request($method, $url, $body) {
+	public function request(string $method, string $url, string $body): string {
 		curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
 		curl_setopt($this->curl, CURLOPT_URL, $url);
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $body);

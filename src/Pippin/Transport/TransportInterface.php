@@ -4,6 +4,6 @@ namespace Pippin\Transport;
 
 interface TransportInterface {
 
-	public function request($method, $url, $body);
+	public function request(string $method, string $url, string $body): string;
 
 }

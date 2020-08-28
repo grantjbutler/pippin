@@ -6,7 +6,7 @@ use Pippin\IPN;
 
 final class IPNParser {
 
-	public function parse($IPNString) {
+	public function parse(string $IPNString): IPN {
 		$IPNData = [];
 		$pairs = explode('&', $IPNString);
 		foreach ($pairs as $pair) {
